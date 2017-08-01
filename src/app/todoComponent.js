@@ -8,7 +8,9 @@ class TodoComponent extends React.Component{
 	constructor(){
 		console.log('contrsutco')
 		super();
-		this.state = {'todos': ['wash up', 'eat some cheese', 'take a nap', 'buy flower']}
+		this.state = {'todos': ['wash up', 'eat some cheese', 'take a nap', 'buy flower']};
+		this.onAdd = this.onAdd.bind(this);
+		this.onDelete = this.onDelete.bind(this);
 	}
 
 	render(){
@@ -44,7 +46,8 @@ class TodoComponent extends React.Component{
 	}
 
 	onAdd(item){
-		var updatedTodos = this.todos;
+		console.log('todoComponent.onAdd')
+		var updatedTodos = this.state.todos;
 		updatedTodos.push(item);
 
 		this.setState({

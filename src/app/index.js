@@ -22,7 +22,6 @@ import TodoComponent from './todoComponent';
 // 			<Router history={newHistory}>
 // 				<div>
 // 					<Route path={'/'} component={TodoComponent}></Route>
-// 					<Route path={'/about'} component={About}></Route>
 // 				</div>
 // 			</Router>
 // 		);
