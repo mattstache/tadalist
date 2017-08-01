@@ -1,34 +1,34 @@
 var React = require('react');
 var ReactDom = require('react-dom');
-require('./css/index.css');
+// const mongoose = require('mongoose');
 import {Router, Route, browserHistory, Link} from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory'
-
 const newHistory = createBrowserHistory();
 
-//Module requires
-// var TodoItem = require('./todoItem');
-// var AddItem = require('./addItem');
-// var About = require('./about');
+//Styles
+require('./css/index.css');
 
-//import {TodoItem} from './todoItem';
-//import {AddItem} from './addItem';
-//import {Link} from 'react-router';
+//Database conenction
+// const db = 'mongodb://localhost/mongoosetest';
+// mongoose.Promise = global.Promise;
+// mongoose.connect(db);
+
+//Module requires
 import TodoComponent from './todoComponent';
 
-// export default class App extends React.Component {
-// 	render(){
-// 		return(
-// 			<Router history={newHistory}>
-// 				<div>
-// 					<Route path={'/'} component={TodoComponent}></Route>
-// 				</div>
-// 			</Router>
-// 		);
-// 	}
-// };
+export default class App extends React.Component {
+	render(){
+		return(
+			<Router history={newHistory}>
+				<div>
+					<Route path={'/'} component={TodoComponent}></Route>
+				</div>
+			</Router>
+		);
+	}
+};
 
 
 //put component into html page
-ReactDom.render(<TodoComponent />, document.getElementById('todo-wrapper'));
+ReactDom.render(<App />, document.getElementById('todo-wrapper'));
 
