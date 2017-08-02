@@ -50,11 +50,13 @@ promise.then(function(db) {
 	});
 
 	router.get('/lists', function(req, res){
-		console.log('===GETTING ALL LISTS===');
-		List.find()
+		console.log('===GETTING ALL LISTS==='); 
+		List.find().lean()
 		.exec()
 		.then((lists) => {
-			res.json(lists);
+			//res.json(lists);
+			console.log(lists)
+			res.send(JSON.stringify(lists));
 		})
 		.catch((err) => {
 			console.log('an error has occurred')

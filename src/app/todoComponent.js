@@ -64,20 +64,23 @@ class TodoComponent extends React.Component{
 	}
 
 	componentDidMount() {
-		this.GetLists();
+		this.GetLists(function(response){
+			console.log('test');
+			console.log(response)
+		});
 	}
 
-	GetLists() {
+	GetLists(callback) {
 		fetch('http://localhost:3001/api/lists')
 		.then((data) => {
-			console.log('ajax response')
-			console.log(data.json())
-			//this.setState({ person: data.results });
+			return data.json().then(function(json) {
+				callback(json);
+			});
 		});
 	}
 
 	componentWillUpdate(){
-		console.log('componentWillUpdate')
+		console.log('componentWillUpdate') 
 	}
 };
 
