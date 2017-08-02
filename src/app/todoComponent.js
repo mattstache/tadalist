@@ -12,14 +12,14 @@ class TodoComponent extends React.Component{
 		console.log('contrsutco')
 		super();
 		this.state = {'items': []};
-		this.onAdd = this.onAdd.bind(this);
+		this.onAddItem = this.onAddItem.bind(this);
 		this.onDelete = this.onDelete.bind(this);
 	}
 
 	render(){
 		console.log('==========================this.state')
 		console.log(this.state)
-		var items = this.state.items;
+		var items = this.state.items || [];
 
 		items = items.map(function(item, index){
 			console.log('item.name: '  + item.name)
@@ -33,7 +33,7 @@ class TodoComponent extends React.Component{
 				<ul>
 					{items}
 				</ul>
-				<AddItem onAdd={this.onAdd} />
+				<AddItem onAddItem={this.onAddItem} />
 			</div>
 		);
 	} //render
@@ -49,10 +49,27 @@ class TodoComponent extends React.Component{
 		});
 	}
 
-	onAdd(item){
+	onAddItem(item){
 		console.log('todoComponent.onAdd')
-		var updatedTodos = this.state.items;
-		updatedTodos.push(item);
+		console.log(item);
+		var updatedTodos = this.state.items || [];
+		updatedTodos.push({name: item});
+
+		console.log('JSON.stringify({items: updatedTodos})')
+		console.log(JSON.stringify({items: updatedTodos}))
+
+		fetch('http://localhost:3001/api/list/' + this.props.match.params.id, {
+			method: 'POST',
+			headers: new Headers({
+             'Content-Type': 'application/json', // <-- Specifying the Content-Type
+    		}),
+			body: JSON.stringify({items: updatedTodos})
+		})
+		.then((data) => {
+			return data.json().then(function(json) {
+				callback(json);
+			});
+		});
 
 		this.setState({
 			items:updatedTodos

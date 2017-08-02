@@ -100,17 +100,19 @@ promise.then(function(db) {
 
 	})
 
-	router.put('/list/:id', function(req, res){
+	router.post('/list/:id', function(req, res){
+		console.log('===Post new Item=====')
+		console.log(req.body.items)
 		List.findOneAndUpdate({
 			_id: req.params.id
 		},
 		{
-			$set: {name: req.body.name}
+			$set: {items: req.body.items} //name: req.body.name
 		},
-		{upset: true})
+		{upsert: true})
 		.exec()
 		.then((list) => {
-			console.log(list)
+			//console.log(list)
 			res.status(204);
 		})
 		.catch((err) => {

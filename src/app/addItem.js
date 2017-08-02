@@ -11,7 +11,7 @@ class AddItem extends React.Component{
 	render(){
 		return(
 			<form id="add-todo" onSubmit={this.add}>
-				<input type="text" required ref="newItem" />
+				<input type="text" required ref="name" />
 				<input type="submit" value="Hit me" />
 			</form>
 		);
@@ -21,7 +21,8 @@ class AddItem extends React.Component{
 	add(e){
 		e.preventDefault();
 		console.log('addItem.add')
-		this.props.onAdd(this.refs.newItem.value);
+		console.log(this.props)
+		this.props.onAddItem(this.refs.name.value);
 	}
 };
 
