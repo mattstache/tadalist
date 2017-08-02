@@ -12,7 +12,7 @@ class TodoItem extends React.Component{
 		return(
 			<li>
 				<div className="todo-item">
-					<span className="item-name">{this.props.item}</span>
+					<span className="item-name">{this.props.name}</span>
 					<span className="item-delete" onClick={this.delete}>x</span>
 				</div>
 			</li>

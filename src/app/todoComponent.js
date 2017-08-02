@@ -11,7 +11,7 @@ class TodoComponent extends React.Component{
 	constructor(){
 		console.log('contrsutco')
 		super();
-		this.state = {'todos': ['wash up', 'eat some cheese', 'take a nap', 'buy flower']};
+		this.state = {'items': []};
 		this.onAdd = this.onAdd.bind(this);
 		this.onDelete = this.onDelete.bind(this);
 	}
@@ -19,18 +19,19 @@ class TodoComponent extends React.Component{
 	render(){
 		console.log('==========================this.state')
 		console.log(this.state)
-		var todos = this.state.todos;
+		var items = this.state.items;
 
-		todos = todos.map(function(item, index){
+		items = items.map(function(item, index){
+			console.log('item.name: '  + item.name)
 			return(
-				<TodoItem item={item} key={index} onDelete={this.onDelete} />
+				<TodoItem name={item.name} key={index} onDelete={this.onDelete} />
 			)
 		}.bind(this));
 
 		return(
 			<div id="todo-list">
 				<ul>
-					{todos}
+					{items}
 				</ul>
 				<AddItem onAdd={this.onAdd} />
 			</div>
@@ -39,22 +40,22 @@ class TodoComponent extends React.Component{
 
 	//custom functions
 	onDelete(item){
-		var updatedTodos = this.state.todos.filter(function(val, index){
+		var updatedTodos = this.state.items.filter(function(val, index){
 			return item !== val;
 		});
 
 		this.setState({
-			todos: updatedTodos
+			items: updatedTodos
 		});
 	}
 
 	onAdd(item){
 		console.log('todoComponent.onAdd')
-		var updatedTodos = this.state.todos;
+		var updatedTodos = this.state.items;
 		updatedTodos.push(item);
 
 		this.setState({
-			todos:updatedTodos
+			items:updatedTodos
 		});
 	}
 
@@ -64,9 +65,11 @@ class TodoComponent extends React.Component{
 	}
 
 	componentDidMount() {
+		var $self = this;
 		this.GetList(function(response){
 			console.log('test');
 			console.log(response)
+			$self.setState({items: response.items});
 		});
 	}
 
