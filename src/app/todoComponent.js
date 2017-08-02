@@ -64,14 +64,16 @@ class TodoComponent extends React.Component{
 	}
 
 	componentDidMount() {
-		this.GetLists(function(response){
+		this.GetList(function(response){
 			console.log('test');
 			console.log(response)
 		});
 	}
 
-	GetLists(callback) {
-		fetch('http://localhost:3001/api/lists')
+	GetList(callback) {
+		console.log('======PROPS=====')
+		console.log(this.props.match.params.id)
+		fetch('http://localhost:3001/api/list/' + this.props.match.params.id)
 		.then((data) => {
 			return data.json().then(function(json) {
 				callback(json);

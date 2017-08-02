@@ -21,7 +21,8 @@ export default class App extends React.Component {
 		return(
 			<Router history={newHistory}>
 				<div>
-					<Route path={'/'} component={TodoComponent}></Route>
+					
+					<Route path={'/list/:id'} component={TodoComponent}></Route>
 				</div>
 			</Router>
 		);

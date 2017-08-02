@@ -68,13 +68,15 @@ promise.then(function(db) {
 		console.log('===GETTING ONE LIST===');
 		List.findOne({
 			_id: req.params.id
-		})
+		}).lean()
 		.exec()
 		.then((list) => {
-			res.json(list);
+			console.log(list)
+			res.send(JSON.stringify(list));
 		})
 		.catch((err) => {
 			console.log('an error has occurred')
+			console.log(err);
 			res.send('error has occurred')
 		});
 	});
