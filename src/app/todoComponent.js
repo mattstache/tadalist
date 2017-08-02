@@ -1,6 +1,9 @@
 var React = require('react');
 import TodoItem from './todoItem';
 import AddItem from './addItem';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+//var fetch = require('node-fetch');
 //import Link from 'react-router';
 
 //Create component
@@ -60,10 +63,17 @@ class TodoComponent extends React.Component{
 		console.log('componentWillMount')
 	}
 
-	componentDidMount(){
-		console.log('componentDidMount')
+	componentDidMount() {
+		this.GetLists();
+	}
 
-		//any grabbing of external data
+	GetLists() {
+		fetch('http://localhost:3001/api/lists')
+		.then((data) => {
+			console.log('ajax response')
+			console.log(data.json())
+			//this.setState({ person: data.results });
+		});
 	}
 
 	componentWillUpdate(){
