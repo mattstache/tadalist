@@ -3,8 +3,6 @@ import TodoItem from './todoItem';
 import AddItem from './addItem';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
-//var fetch = require('node-fetch');
-//import Link from 'react-router';
 
 //Create component
 class TodoComponent extends React.Component{
@@ -55,7 +53,7 @@ class TodoComponent extends React.Component{
 		var updatedTodos = this.state.list.items || [];
 		updatedTodos.push({name: item});
 
-		fetch('http://localhost:3001/api/list/' + this.props.match.params.id, {
+		fetch('http://localhost:3001/api/list/' + this.props.match.params.id + '/item', {
 			method: 'POST',
 			headers: new Headers({
              'Content-Type': 'application/json', // <-- Specifying the Content-Type
@@ -64,23 +62,16 @@ class TodoComponent extends React.Component{
 		})
 		.then((data) => {
 			return data.json().then(function(list) {
-				//callback(json);
 				$self.setState({list: list})
 			});
 		});
-
-		// this.setState({
-		// 	items:updatedTodos
-		// });
 	}
 
 	onDeleteItem(item){
 		let $self = this;
-		console.log('onDeleteItem')
-		console.log(item)
-		//this.props.match.params.itemId
+
 		fetch('http://localhost:3001/api/list/' + this.state.list._id + '/item/' + item._id, {
-			method: 'POST',
+			method: 'DELETE',
 			headers: new Headers({
              'Content-Type': 'application/json', // <-- Specifying the Content-Type
     		}),
@@ -93,10 +84,6 @@ class TodoComponent extends React.Component{
 				$self.setState({list: list});
 			});
 		});
-
-		// this.setState({
-		// 	items:updatedTodos
-		// });
 	}
 
 	//lifecycle functions

@@ -8,13 +8,15 @@ var bodyParser = require('body-parser');
 var app = express();
 var router = express.Router();
 
+//models
 const List = require('./src/app/model/List.model');
+
 //set our port to either a predetermined port number if you have set 
 //it up, or 3001
 var port = process.env.API_PORT || 3001;
 const db = 'mongodb://localhost/mongoosetest';
 mongoose.Promise = global.Promise;
-// mongoose.connect(db);
+
 
 // Using `mongoose.connect`...
 var promise = mongoose.connect(db, {
@@ -41,21 +43,15 @@ promise.then(function(db) {
 	 next();
 	});
 	//now we can set the route path & initialize the API
-	// router.get('/', function(req, res) {
-	//  res.json({ message: 'API Initialized!'});
-	// });
 
 	router.get('/', function(req, res){
-		res.send('here we are')
+		res.send('API initialized')
 	});
 
 	router.get('/lists', function(req, res){
-		console.log('===GETTING ALL LISTS==='); 
 		List.find().lean()
 		.exec()
 		.then((lists) => {
-			//res.json(lists);
-			console.log(lists)
 			res.send(JSON.stringify(lists));
 		})
 		.catch((err) => {
@@ -65,7 +61,7 @@ promise.then(function(db) {
 	});
 
 	router.get('/list/:id', function(req, res){
-		console.log('===GETTING ONE LIST===');
+		console.log('===GET ONE LIST===');
 		List.findOne({
 			_id: req.params.id
 		}).lean()
@@ -82,7 +78,7 @@ promise.then(function(db) {
 	});
 
 	router.post('/list', function(req, res){
-		console.log('saving new <list></list>')
+		console.log('===Save new list===')
 		var newList = new List();
 
 		newList.name = req.body.name;
@@ -99,9 +95,8 @@ promise.then(function(db) {
 
 	})
 
-	router.post('/list/:id', function(req, res){
+	router.post('/list/:id/item', function(req, res){
 		console.log('===Post new Item=====')
-		//console.log(req.body.items)
 
 		let items = req.body.items.map(function(item, index){
 			//if there is no object id, assign one
@@ -112,8 +107,6 @@ promise.then(function(db) {
 			return item;
 		});
 
-		console.log(items)
-
 		List.findOneAndUpdate({
 			_id: req.params.id
 		},
@@ -123,11 +116,7 @@ promise.then(function(db) {
 		{new: true})
 		.exec()
 		.then((list) => {
-			//console.log(list)
-			console.log('backend list')
-			console.log(list)
 			res.send(list);
-			//res.status(204);
 		})
 		.catch((err) => {
 			res.send('error saving list');
@@ -140,7 +129,6 @@ promise.then(function(db) {
 		})
 		.exec()
 		.then((list) => {
-			console.log(list)
 			res.status(204);
 		})
 		.catch((err) => {
@@ -148,8 +136,7 @@ promise.then(function(db) {
 		});
 	})
 
-	router.post('/list/:id/item/:itemid', function(req, res){
-		console.log('delete item: ' + req.params.itemid + ' from list: ' + req.params.id)
+	router.delete('/list/:id/item/:itemid', function(req, res){
 		List.findOne({
 			_id: req.params.id
 		})
@@ -159,11 +146,6 @@ promise.then(function(db) {
 				//if the entered id is the same as this id, don't return it
 				return(item._id != req.params.itemid);
 			});
-
-			console.log('items')
-			console.log(items)
-
-			//try setting to new variable and then removing
 
 			List.findOneAndUpdate({
 				_id: req.params.id
@@ -175,11 +157,7 @@ promise.then(function(db) {
 			)
 			.exec()
 			.then((updatedList) => {
-				//console.log(list)
-				console.log('updatedList')
-				console.log(updatedList)
 				res.send(updatedList);
-				//res.status(204);
 			})
 			.catch((err) => {
 				res.send('error deleting item 1');
@@ -197,7 +175,7 @@ promise.then(function(db) {
 	app.use('/api', router);
 	//starts the server and listens for requests
 	app.listen(port, function() {
-	 console.log(`api running on port ${port}`);
+	 console.log(`API running on port ${port}`);
 	});
 });
 
