@@ -101,7 +101,7 @@ promise.then(function(db) {
 
 	router.post('/list/:id', function(req, res){
 		console.log('===Post new Item=====')
-		console.log(req.body.items)
+		//console.log(req.body.items)
 
 		let items = req.body.items.map(function(item, index){
 			//if there is no object id, assign one
@@ -112,18 +112,22 @@ promise.then(function(db) {
 			return item;
 		});
 
+		console.log(items)
+
 		List.findOneAndUpdate({
 			_id: req.params.id
 		},
 		{
 			$set: {items: items} //name: req.body.name
 		},
-		//{new: true},
-		{upsert: true})
+		{new: true})
 		.exec()
 		.then((list) => {
 			//console.log(list)
-			res.status(204);
+			console.log('backend list')
+			console.log(list)
+			res.send(list);
+			//res.status(204);
 		})
 		.catch((err) => {
 			res.send('error saving list');

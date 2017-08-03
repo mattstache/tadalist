@@ -51,6 +51,7 @@ class TodoComponent extends React.Component{
 	}
 
 	onAddItem(item){
+		let $self = this;
 		var updatedTodos = this.state.list.items || [];
 		updatedTodos.push({name: item});
 
@@ -62,14 +63,15 @@ class TodoComponent extends React.Component{
 			body: JSON.stringify({items: updatedTodos})
 		})
 		.then((data) => {
-			return data.json().then(function(json) {
-				callback(json);
+			return data.json().then(function(list) {
+				//callback(json);
+				$self.setState({list: list})
 			});
 		});
 
-		this.setState({
-			items:updatedTodos
-		});
+		// this.setState({
+		// 	items:updatedTodos
+		// });
 	}
 
 	onDeleteItem(item){
