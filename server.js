@@ -118,6 +118,7 @@ promise.then(function(db) {
 		{
 			$set: {items: items} //name: req.body.name
 		},
+		//{new: true},
 		{upsert: true})
 		.exec()
 		.then((list) => {
@@ -155,6 +156,9 @@ promise.then(function(db) {
 				return(item._id != req.params.itemid);
 			});
 
+			console.log('items')
+			console.log(items)
+
 			//try setting to new variable and then removing
 
 			List.findOneAndUpdate({
@@ -162,7 +166,9 @@ promise.then(function(db) {
 			},
 			{
 				$set: {items: items} //name: req.body.name
-			})
+			},
+			{new: true}
+			)
 			.exec()
 			.then((updatedList) => {
 				//console.log(list)

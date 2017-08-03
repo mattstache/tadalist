@@ -85,9 +85,10 @@ class TodoComponent extends React.Component{
 			body: JSON.stringify({itemId: item._id})
 		})
 		.then((data) => {
-			return data.json().then(function(json) {
-				
-				console.log(json);
+			console.log(data)
+			return data.json().then(function(list) {
+				console.log(list);
+				$self.setState({list: list});
 			});
 		});
 
