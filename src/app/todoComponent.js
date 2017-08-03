@@ -108,10 +108,12 @@ class TodoComponent extends React.Component{
 
 	//lifecycle functions
 	componentWillMount(){
+		console.log('componentWillMount')
 
 	}
 
 	componentDidMount() {
+		console.log('componentDidMount')
 		var $self = this;
 		this.GetList(function(list){
 			$self.setState({list: list});
@@ -127,9 +129,31 @@ class TodoComponent extends React.Component{
 		});
 	}
 
-	componentWillUpdate(){
+	componentWillReceiveProps(){
+		console.log('componentWillReceiveProps')
 
 	}
+
+	// shouldComponentUpdate(){
+	// 	console.log('componentShouldUpdate')
+
+	// }
+
+	componentWillUpdate(){
+		console.log('componentWillUpdate')
+
+	}
+
+	componentDidUpdate(){
+		console.log('componentDidUpdate')
+
+	}
+
+	componentWillUnmount(){
+		console.log('componentWillUnmount')
+
+	}
+
 };
 
 export default TodoComponent;

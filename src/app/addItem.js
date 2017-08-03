@@ -20,8 +20,6 @@ class AddItem extends React.Component{
 	//custom functions
 	add(e){
 		e.preventDefault();
-		console.log('addItem.add')
-		console.log(this.props)
 		this.props.onAddItem(this.refs.name.value);
 	}
 };

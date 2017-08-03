@@ -11,6 +11,10 @@
 .item-name{
   flex-basis: 0;
   flex-grow: 9;
+  border:none;
+  background:transparent;
+  font-size: 16px;
+  outline:none;
 }
 
 .item-remove{
