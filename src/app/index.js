@@ -15,13 +15,14 @@ require('./css/index.css');
 
 //Module requires
 import TodoComponent from './todoComponent';
+import HomeComponent from './homeComponent';
 
 export default class App extends React.Component {
 	render(){
 		return(
 			<Router history={newHistory}>
 				<div>
-					
+					<Route exact path={'/'} component={HomeComponent}></Route>
 					<Route path={'/list/:id'} component={TodoComponent}></Route>
 				</div>
 			</Router>

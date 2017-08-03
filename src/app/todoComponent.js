@@ -17,11 +17,10 @@ class TodoComponent extends React.Component{
 	}
 
 	render(){
-		console.log('==========================this.state')
-		console.log(this.state)
-		var items = this.state.items || [];
+		this.state.list = this.state.list || {};
+		this.state.list.items = this.state.list.items || [];
 
-		items = items.map(function(item, index){
+		let itemsEl = this.state.list.items.map(function(item, index){
 			console.log('item.name: '  + item.name)
 			return(
 				<TodoItem name={item.name} key={index} onDelete={this.onDelete} />
@@ -30,8 +29,9 @@ class TodoComponent extends React.Component{
 
 		return(
 			<div id="todo-list">
+				<h1>{this.state.list.name}</h1>
 				<ul>
-					{items}
+					{itemsEl}
 				</ul>
 				<AddItem onAddItem={this.onAddItem} />
 			</div>
@@ -52,7 +52,7 @@ class TodoComponent extends React.Component{
 	onAddItem(item){
 		console.log('todoComponent.onAdd')
 		console.log(item);
-		var updatedTodos = this.state.items || [];
+		var updatedTodos = this.state.list.items || [];
 		updatedTodos.push({name: item});
 
 		console.log('JSON.stringify({items: updatedTodos})')
@@ -83,10 +83,10 @@ class TodoComponent extends React.Component{
 
 	componentDidMount() {
 		var $self = this;
-		this.GetList(function(response){
+		this.GetList(function(list){
 			console.log('test');
-			console.log(response)
-			$self.setState({items: response.items});
+			console.log(list)
+			$self.setState({list: list});
 		});
 	}
 

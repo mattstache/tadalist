@@ -87,10 +87,9 @@ promise.then(function(db) {
 
 		newList.name = req.body.name;
 
-		console.log(req.body);
+		console.log(newList);
 
 		newList.save()
-		.exec()
 		.then((list) => {
 			res.send(list);
 		})
