@@ -13,6 +13,7 @@ class TodoComponent extends React.Component{
 		this.onAddItem = this.onAddItem.bind(this);
 		this.onDelete = this.onDelete.bind(this);
 		this.onDeleteItem = this.onDeleteItem.bind(this);
+		this.editItem = this.editItem.bind(this);
 	}
 
 	render(){
@@ -22,7 +23,7 @@ class TodoComponent extends React.Component{
 		let itemsEl = this.state.list.items.map(function(item, index){
 			console.log('item.name: '  + item.name)
 			return(
-				<TodoItem item={item} key={index} onDeleteItem={this.onDeleteItem} />
+				<TodoItem item={item} key={index} editItem={this.editItem} onDeleteItem={this.onDeleteItem} />
 			)
 		}.bind(this));
 
@@ -76,6 +77,25 @@ class TodoComponent extends React.Component{
              'Content-Type': 'application/json', // <-- Specifying the Content-Type
     		}),
 			body: JSON.stringify({itemId: item._id})
+		})
+		.then((data) => {
+			console.log(data)
+			return data.json().then(function(list) {
+				console.log(list);
+				$self.setState({list: list});
+			});
+		});
+	}
+
+	editItem(item){
+		let $self = this;
+
+		fetch('http://localhost:3001/api/list/' + this.state.list._id + '/item/' + item._id, {
+			method: 'PUT',
+			headers: new Headers({
+             'Content-Type': 'application/json', // <-- Specifying the Content-Type
+    		}),
+			body: JSON.stringify({item: item})
 		})
 		.then((data) => {
 			console.log(data)

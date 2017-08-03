@@ -48,6 +48,7 @@ promise.then(function(db) {
 		res.send('API initialized')
 	});
 
+	//get all lists
 	router.get('/lists', function(req, res){
 		List.find().lean()
 		.exec()
@@ -60,6 +61,7 @@ promise.then(function(db) {
 		})
 	});
 
+	//find one list by id
 	router.get('/list/:id', function(req, res){
 		console.log('===GET ONE LIST===');
 		List.findOne({
@@ -77,6 +79,7 @@ promise.then(function(db) {
 		});
 	});
 
+	//create a new list
 	router.post('/list', function(req, res){
 		console.log('===Save new list===')
 		var newList = new List();
@@ -95,6 +98,7 @@ promise.then(function(db) {
 
 	})
 
+	//post an item to the list
 	router.post('/list/:id/item', function(req, res){
 		console.log('===Post new Item=====')
 
@@ -123,6 +127,7 @@ promise.then(function(db) {
 		});
 	})
 
+	//delete an entire list
 	router.delete('/list/:id', function(req, res){
 		List.findOneAndRemove({
 			_id: req.params.id
@@ -136,17 +141,21 @@ promise.then(function(db) {
 		});
 	})
 
+	//delete an item from the list
 	router.delete('/list/:id/item/:itemid', function(req, res){
+		//find the list
 		List.findOne({
 			_id: req.params.id
 		})
 		.exec()
 		.then((list) => {
+			//using the returned list, filter out the item
 			let items = list.items.filter(function(item){
 				//if the entered id is the same as this id, don't return it
 				return(item._id != req.params.itemid);
 			});
 
+			//update returned list with filtered items
 			List.findOneAndUpdate({
 				_id: req.params.id
 			},
@@ -165,6 +174,48 @@ promise.then(function(db) {
 		})
 		.catch((err) => {
 			res.send('error deleting item 2');
+		});
+	})
+
+	//edit the item
+	router.put('/list/:id/item/:itemid', function(req, res){
+		console.log('====Server side edit item====')
+		//find the list
+		List.findOne({
+			_id: req.params.id
+		})
+		.exec()
+		.then((list) => {
+
+			//map items from returned list and update the edited item
+			let items = list.items.map(function(item, index){
+				//if this is the item in the db
+				if(item._id == req.body.item._id){
+					item = req.body.item;
+				}
+
+				return item;
+			});
+
+			//update list in db with new items
+			List.findOneAndUpdate({
+				_id: req.params.id
+			},
+			{
+				$set: {items: items} //name: req.body.name
+			},
+			{new: true}
+			)
+			.exec()
+			.then((updatedList) => {
+				res.send(updatedList);
+			})
+			.catch((err) => {
+				res.send('error updating item 1');
+			});
+		})
+		.catch((err) => {
+			res.send('error updating item 2');
 		});
 	})
 
