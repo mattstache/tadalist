@@ -146,24 +146,27 @@ promise.then(function(db) {
 	router.post('/list/:id/item/:itemid', function(req, res){
 		console.log('delete item: ' + req.params.itemid + ' from list: ' + req.params.id)
 		List.findOne({
-			_id: req.params.itemid
+			_id: req.params.id
 		})
 		.exec()
 		.then((list) => {
 			//console.log(list)
 			console.log('in the then')
-			let items = list.items.map(function(item, index){
+			console.log(list)
+			let items = list.items.filter(function(item){
 				//if the entered id is the same as this id, don't return it
-				if(item._id != req.params.id){
-					return item;
-				}
+				console.log('item._id: ' + item._id)
+				console.log('req.params.id: ' + req.params.itemid)
+				return(item._id != req.params.itemid);
 			});
+
+
 
 			console.log('new list of items')
 			console.log(items)
 
 			List.findOneAndUpdate({
-				_id: req.params.itemid
+				_id: req.params.id
 			},
 			{
 				$set: {items: items} //name: req.body.name
