@@ -150,20 +150,12 @@ promise.then(function(db) {
 		})
 		.exec()
 		.then((list) => {
-			//console.log(list)
-			console.log('in the then')
-			console.log(list)
 			let items = list.items.filter(function(item){
 				//if the entered id is the same as this id, don't return it
-				console.log('item._id: ' + item._id)
-				console.log('req.params.id: ' + req.params.itemid)
 				return(item._id != req.params.itemid);
 			});
 
-
-
-			console.log('new list of items')
-			console.log(items)
+			//try setting to new variable and then removing
 
 			List.findOneAndUpdate({
 				_id: req.params.id
@@ -172,9 +164,12 @@ promise.then(function(db) {
 				$set: {items: items} //name: req.body.name
 			})
 			.exec()
-			.then((list) => {
+			.then((updatedList) => {
 				//console.log(list)
-				res.status(204);
+				console.log('updatedList')
+				console.log(updatedList)
+				res.send(updatedList);
+				//res.status(204);
 			})
 			.catch((err) => {
 				res.send('error deleting item 1');

@@ -86,7 +86,8 @@ class TodoComponent extends React.Component{
 		})
 		.then((data) => {
 			return data.json().then(function(json) {
-				callback(json);
+				
+				console.log(json);
 			});
 		});
 
