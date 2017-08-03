@@ -14,6 +14,7 @@ class TodoComponent extends React.Component{
 		this.state = {'items': []};
 		this.onAddItem = this.onAddItem.bind(this);
 		this.onDelete = this.onDelete.bind(this);
+		this.onDeleteItem = this.onDeleteItem.bind(this);
 	}
 
 	render(){
@@ -23,7 +24,7 @@ class TodoComponent extends React.Component{
 		let itemsEl = this.state.list.items.map(function(item, index){
 			console.log('item.name: '  + item.name)
 			return(
-				<TodoItem name={item.name} key={index} onDelete={this.onDelete} />
+				<TodoItem item={item} key={index} onDeleteItem={this.onDeleteItem} />
 			)
 		}.bind(this));
 
@@ -50,13 +51,8 @@ class TodoComponent extends React.Component{
 	}
 
 	onAddItem(item){
-		console.log('todoComponent.onAdd')
-		console.log(item);
 		var updatedTodos = this.state.list.items || [];
 		updatedTodos.push({name: item});
-
-		console.log('JSON.stringify({items: updatedTodos})')
-		console.log(JSON.stringify({items: updatedTodos}))
 
 		fetch('http://localhost:3001/api/list/' + this.props.match.params.id, {
 			method: 'POST',
@@ -76,23 +72,42 @@ class TodoComponent extends React.Component{
 		});
 	}
 
+	onDeleteItem(item){
+		let $self = this;
+		console.log('onDeleteItem')
+		console.log(item)
+		//this.props.match.params.itemId
+		fetch('http://localhost:3001/api/list/' + this.state.list._id + '/item/' + item._id, {
+			method: 'POST',
+			headers: new Headers({
+             'Content-Type': 'application/json', // <-- Specifying the Content-Type
+    		}),
+			body: JSON.stringify({itemId: item._id})
+		})
+		.then((data) => {
+			return data.json().then(function(json) {
+				callback(json);
+			});
+		});
+
+		// this.setState({
+		// 	items:updatedTodos
+		// });
+	}
+
 	//lifecycle functions
 	componentWillMount(){
-		console.log('componentWillMount')
+
 	}
 
 	componentDidMount() {
 		var $self = this;
 		this.GetList(function(list){
-			console.log('test');
-			console.log(list)
 			$self.setState({list: list});
 		});
 	}
 
 	GetList(callback) {
-		console.log('======PROPS=====')
-		console.log(this.props.match.params.id)
 		fetch('http://localhost:3001/api/list/' + this.props.match.params.id)
 		.then((data) => {
 			return data.json().then(function(json) {
@@ -102,7 +117,7 @@ class TodoComponent extends React.Component{
 	}
 
 	componentWillUpdate(){
-		console.log('componentWillUpdate') 
+
 	}
 };
 

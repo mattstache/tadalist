@@ -102,11 +102,21 @@ promise.then(function(db) {
 	router.post('/list/:id', function(req, res){
 		console.log('===Post new Item=====')
 		console.log(req.body.items)
+
+		let items = req.body.items.map(function(item, index){
+			//if there is no object id, assign one
+			if(typeof item._id == 'undefined'){
+				item._id = mongoose.Types.ObjectId();
+			}
+
+			return item;
+		});
+
 		List.findOneAndUpdate({
 			_id: req.params.id
 		},
 		{
-			$set: {items: req.body.items} //name: req.body.name
+			$set: {items: items} //name: req.body.name
 		},
 		{upsert: true})
 		.exec()
@@ -130,6 +140,45 @@ promise.then(function(db) {
 		})
 		.catch((err) => {
 			res.send('error deleting list');
+		});
+	})
+
+	router.post('/list/:id/item/:itemid', function(req, res){
+		console.log('delete item: ' + req.params.itemid + ' from list: ' + req.params.id)
+		List.findOne({
+			_id: req.params.itemid
+		})
+		.exec()
+		.then((list) => {
+			//console.log(list)
+			console.log('in the then')
+			let items = list.items.map(function(item, index){
+				//if the entered id is the same as this id, don't return it
+				if(item._id != req.params.id){
+					return item;
+				}
+			});
+
+			console.log('new list of items')
+			console.log(items)
+
+			List.findOneAndUpdate({
+				_id: req.params.itemid
+			},
+			{
+				$set: {items: items} //name: req.body.name
+			})
+			.exec()
+			.then((list) => {
+				//console.log(list)
+				res.status(204);
+			})
+			.catch((err) => {
+				res.send('error deleting item 1');
+			});
+		})
+		.catch((err) => {
+			res.send('error deleting item 2');
 		});
 	})
 
