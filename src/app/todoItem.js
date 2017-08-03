@@ -11,10 +11,11 @@ class TodoItem extends React.Component{
 
 	render(){
 		return(
-			<li>
+			<li key={this.props.item._id}>
 				<div className="todo-item">
 					<input className="item-name" onKeyUp={this.handleItemKeyUp} name="name" defaultValue={this.props.item.name} />
 					<span className="item-delete" onClick={this.delete}>x</span>
+
 				</div>
 			</li>
 		);

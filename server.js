@@ -143,6 +143,7 @@ promise.then(function(db) {
 
 	//delete an item from the list
 	router.delete('/list/:id/item/:itemid', function(req, res){
+		console.log('====server side delete')
 		//find the list
 		List.findOne({
 			_id: req.params.id
@@ -155,6 +156,9 @@ promise.then(function(db) {
 				return(item._id != req.params.itemid);
 			});
 
+			console.log('items to be posted')
+			console.log(items)
+
 			//update returned list with filtered items
 			List.findOneAndUpdate({
 				_id: req.params.id
@@ -166,6 +170,8 @@ promise.then(function(db) {
 			)
 			.exec()
 			.then((updatedList) => {
+				console.log('UpdateList===')
+				console.log(updatedList)
 				res.send(updatedList);
 			})
 			.catch((err) => {

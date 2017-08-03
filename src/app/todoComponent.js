@@ -1,6 +1,7 @@
 var React = require('react');
 import TodoItem from './todoItem';
 import AddItem from './addItem';
+import { CSSTransitionGroup } from 'react-transition-group';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -70,7 +71,7 @@ class TodoComponent extends React.Component{
 
 	onDeleteItem(item){
 		let $self = this;
-
+console.log('onDeleteItem')
 		fetch('http://localhost:3001/api/list/' + this.state.list._id + '/item/' + item._id, {
 			method: 'DELETE',
 			headers: new Headers({
@@ -79,8 +80,8 @@ class TodoComponent extends React.Component{
 			body: JSON.stringify({itemId: item._id})
 		})
 		.then((data) => {
-			console.log(data)
 			return data.json().then(function(list) {
+				console.log('client updated list')
 				console.log(list);
 				$self.setState({list: list});
 			});
@@ -107,10 +108,10 @@ class TodoComponent extends React.Component{
 	}
 
 	//lifecycle functions
-	componentWillMount(){
-		console.log('componentWillMount')
+	// componentWillMount(){
+	// 	console.log('componentWillMount')
 
-	}
+	// }
 
 	componentDidMount() {
 		console.log('componentDidMount')
@@ -129,30 +130,30 @@ class TodoComponent extends React.Component{
 		});
 	}
 
-	componentWillReceiveProps(){
-		console.log('componentWillReceiveProps')
-
-	}
-
-	// shouldComponentUpdate(){
-	// 	console.log('componentShouldUpdate')
+	// componentWillReceiveProps(){
+	// 	console.log('componentWillReceiveProps')
 
 	// }
 
-	componentWillUpdate(){
-		console.log('componentWillUpdate')
+	// // shouldComponentUpdate(){
+	// // 	console.log('componentShouldUpdate')
 
-	}
+	// // }
 
-	componentDidUpdate(){
-		console.log('componentDidUpdate')
+	// componentWillUpdate(){
+	// 	console.log('componentWillUpdate')
 
-	}
+	// }
 
-	componentWillUnmount(){
-		console.log('componentWillUnmount')
+	// componentDidUpdate(){
+	// 	console.log('componentDidUpdate')
 
-	}
+	// }
+
+	// componentWillUnmount(){
+	// 	console.log('componentWillUnmount')
+
+	// }
 
 };
 
