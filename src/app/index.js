@@ -8,14 +8,10 @@ const newHistory = createBrowserHistory();
 //Styles
 require('./css/index.css');
 
-//Database conenction
-// const db = 'mongodb://localhost/mongoosetest';
-// mongoose.Promise = global.Promise;
-// mongoose.connect(db);
-
 //Module requires
 import TodoComponent from './todoComponent';
 import HomeComponent from './homeComponent';
+import ListAllComponent from './listAllComponent';
 
 export default class App extends React.Component {
 	render(){
@@ -23,6 +19,7 @@ export default class App extends React.Component {
 			<Router history={newHistory}>
 				<div>
 					<Route exact path={'/'} component={HomeComponent}></Route>
+					<Route path={'/listall'} component={ListAllComponent}></Route>
 					<Route path={'/list/:id'} component={TodoComponent}></Route>
 				</div>
 			</Router>

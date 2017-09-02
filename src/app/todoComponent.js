@@ -122,6 +122,7 @@ console.log('onDeleteItem')
 	}
 
 	GetList(callback) {
+		console.log('get list: ' + this.props.match.params.id)
 		fetch('http://localhost:3001/api/list/' + this.props.match.params.id)
 		.then((data) => {
 			return data.json().then(function(json) {
