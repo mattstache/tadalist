@@ -4,6 +4,8 @@
 
 //https://www.codementor.io/olatundegaruba/5-steps-to-authenticating-node-js-with-jwt-7ahb5dmyr
 
+//pasport jwt https://jonathanmh.com/express-passport-json-web-token-jwt-authentication-beginners/
+
 
 
 
