@@ -3,8 +3,11 @@
 
 
 //https://www.codementor.io/olatundegaruba/5-steps-to-authenticating-node-js-with-jwt-7ahb5dmyr
-
 //pasport jwt https://jonathanmh.com/express-passport-json-web-token-jwt-authentication-beginners/
+
+
+
+//https://github.com/mpolinowski/node_express_git/wiki/16-Creating-the-Authentication-Route
 
 
 
@@ -65,10 +68,11 @@ promise.then(function(db) {
 	//now we can set the route path & initialize the API
 
 	//Define our routes
-	var listRoutes = require('./src/app/routes/listRoutes');
+	//var listRoutes = require('./src/app/routes/listRoutes');
+	var routes = require('./src/app/routes/routes');
 
 	//Use our router configuration when we call /api
-	app.use('/api', listRoutes); //app.use('/api', listRoutes);
+	app.use('/api', routes); //listRoutes
 	//starts the server and listens for requests
 	app.listen(port, function() {
 	 console.log(`API running on port ${port}`);
