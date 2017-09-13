@@ -65,14 +65,16 @@ promise.then(function(db) {
 	 res.setHeader('Cache-Control', 'no-cache');
 	 next();
 	});
-	//now we can set the route path & initialize the API
 
+	//now we can set the route path & initialize the API
 	//Define our routes
-	//var listRoutes = require('./src/app/routes/listRoutes');
-	var routes = require('./src/app/routes/routes');
+	var listRoutes = require('./src/app/routes/listRoutes');
+	var authRoutes = require('./src/app/routes/authRoutes');
 
 	//Use our router configuration when we call /api
-	app.use('/api', routes); //listRoutes
+	app.use('/api/list', listRoutes);
+	app.use('/api/auth', authRoutes);
+
 	//starts the server and listens for requests
 	app.listen(port, function() {
 	 console.log(`API running on port ${port}`);

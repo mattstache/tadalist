@@ -1,19 +1,11 @@
+'use strict';
+
+var userHandlers = require('../controllers/user.controller.js');
 var express = require('express');
-var authRouter = express.Router(); /* Creating the Authentication Router */
-var mongodb = require('mongodb').MongoClient;
-var passport = require('passport');
+var router = express.Router();
 
-var router = function () {
-    authRouter.route('/auth/signup') /* Creating the SingUp route */
-        .post(function (req, res) {
-            console.log(req.body); /* We log the req.body Object created by bodyParser from the signUp post to /auth/signup */
-                });
+router.post('/register', userHandlers.register);
 
-            };
-
-    return authRouter; /* return authRouter to be available for app.js */
-};
+router.post('/signin', userHandlers.sign_in);
 
 module.exports = router;
-
-//test  
